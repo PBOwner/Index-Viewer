@@ -11,6 +11,13 @@ jobs:
     outputs:
       needs-updating: ${{ steps.check.outputs.needs-updating }}
     steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Check if update available
         id: check
         uses: lucacome/docker-image-update-checker@03e3f8ff4b69a3bf845e2f6b56f0e0b0ad7e1d1e
