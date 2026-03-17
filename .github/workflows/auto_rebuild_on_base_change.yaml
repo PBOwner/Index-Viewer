@@ -30,5 +30,10 @@ jobs:
     needs: check-base-image-update
     if: needs.check-base-image-update.outputs.needs-updating == 'true'
     uses: ./.github/workflows/deploy.yaml
+    # Even though there are no secrets in this workflow, the called workflow
+    # won't be able to access any secrets without explicit `secrets: inherit`
+    # https://github.com/orgs/community/discussions/25238#discussioncomment-3247035
+    # https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows#passing-secrets-to-nested-workflows
+    secrets: inherit
     permissions:
       packages: write
